@@ -1,0 +1,37 @@
+#!/bin/bash
+set -eu
+
+case "${1:-none}" in
+(inc5k)
+  jq -c 'map({
+    "rank":     .rank,
+    "running":  5000,
+    "name":     .company,
+    "industry": .industry,
+    "revenue":  .revenue,
+    "country":  "United States"
+})' > htdocs/data.json < data/inc5k-2018.json
+  ;;
+
+(fortune-global-2k)
+  jq -c 'map({
+    "rank":     .rank,
+    "running":  2000,
+    "name":     .name,
+    "industry": .industry,
+    "value":    .marketValue,
+    "country":  .country
+})' > htdocs/data.json < data/global2k.json
+  ;;
+
+(*)
+  echo >&2 "USAGE: $0 NAME"
+  echo >&2
+  echo >&2 "Known data set NAMEs:"
+  echo >&2
+  echo >&2 "  inc5k               Inc.com's Top 5000 US Companies"
+  echo >&2 "  fortune-global-2k   Fortune Global 2000"
+  echo >&2
+  exit 1
+  ;;
+esac
