@@ -120,11 +120,13 @@ table {
 #results li ul li {
   margin-right: 1em;
 }
-#results li ul li.market-value {
+#results li ul li.market-value,
+#results li ul li.revenue {
   font-weight: bold;
   color: green;
 }
-#results li ul li.market-value::before {
+#results li ul li.market-value::before,
+#results li ul li.revenue::before {
   content: "$"
 }
 

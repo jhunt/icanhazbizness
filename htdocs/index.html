@@ -23,7 +23,7 @@
     [[ if (_.results.length == 0) { ]]
     <div class="no-data">
 
-      <p>Yas, <strong>YOU CAN</strong>.</p>
+      <p>Yas, <strong>YOU CAN</strong> <span>([[= _.q ]])</span>.</p>
       <img src="icanhaz.png">
     </div>
     [[ } else { ]]
@@ -36,7 +36,13 @@
         <h2>[[= _.results[i].name ]]</h2>
         <ul>
           <li class="industry">[[= _.results[i].industry ]]</li>
-          <li class="market-value">[[= b(_.results[i].marketValue) ]]</li>
+          [[ if ('value' in _.results[i]) { ]]
+          <li class="market-value">[[= b(_.results[i].value) ]]</li>
+          [[ } ]]
+          [[ if ('revenue' in _.results[i]) { ]]
+          <li class="revenue">[[= b(_.results[i].revenue) ]]</li>
+          [[ } ]]
+          <li class="rank">[[= _.results[i].rank ]] / [[= _.results[i].running ]]</li>
         </ul>
       </li>
       [[ } ]]
@@ -48,6 +54,9 @@
   <script type="text/javascript" src="lens.js"></script>
   <script type="text/javascript">
     function b (n) {
+      if (typeof n === 'undefined') {
+        return '(unknown)';
+      }
       if (n > 1000) {
         return (n / 1000.0).toFixed(2) + ' B';
       }
@@ -58,13 +67,14 @@
         type: 'GET',
         url:  'data.json',
       }).then(function (data) {
+        window._data = data;
         $('[name=q]').on('change', function (event) {
           var q = $(event.target).val();
           document.location.hash = '#'+encodeURIComponent(q);
-          q = new RegExp(q, 'i');
+          var re = new RegExp(q, 'i');
           var results = [];
           for (var i = 0; i < data.length; i++) {
-            if (data[i].name.match(q)) {
+            if (data[i].name.toString().match(re)) {
               results.push(data[i]);
             }
           }
@@ -72,7 +82,7 @@
             return (a.name == b.name) ? 0
                  : (a.name  > b.name) ? 1 : -1;
           });
-          $('#results').template('results', { results: results });
+          $('#results').template('results', { q: q, results: results });
         });
 
         if (document.location.hash != '#') {
