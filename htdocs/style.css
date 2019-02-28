@@ -1,0 +1,133 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+  background-color: #616161;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+#main {
+  max-width: 600px;
+  margin: 2em auto;
+  padding: 2em;
+  background-color: #fff;
+  box-shadow: 0px 0px 15px #111;
+}
+
+#main h1 {
+  font-family: Impact;
+  font-size: 40pt;
+  line-height: 2em;
+}
+#main input {
+  font-family: Impact;
+  background-color: black;
+  color: yellow;
+  border: none;
+  border-radius: 8pt;
+  font-size: 40pt;
+  width: 100%;
+  padding: 8pt 20pt;
+  box-sizing: border-box;
+}
+#main input::placeholder {
+  color: #ccc;
+  font-style: italic;
+}
+
+#results .meta {
+  display: block;
+  margin: 0.2em 0 1em 8pt;
+  font-style: italic;
+}
+#results .warning,
+#results .no-data p {
+  display: block;
+  font-size: 24pt;
+  font-family: Impact;
+  margin: 1em auto;
+  text-align: center;
+}
+#results .warning {
+  color: firebrick;
+}
+#results .no-data p strong {
+  color: #0071bc;
+}
+#results .no-data p:nth-child(2) {
+  font-size: 48pt;
+  line-height: 1.1em;
+  font-weight: bold;
+}
+#results .no-data img {
+  width: 100%;
+  border: 2px solid #000;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+#results > ul > li {
+  margin: 1em 0 2em 0;
+}
+#results li h2 {
+  font-family: Impact;
+  font-size: 36pt;
+}
+#results li ul {
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 14pt;
+  font-family: sans-serif;
+  justify-content: left;
+}
+#results li ul li {
+  margin-right: 1em;
+}
+#results li ul li.market-value {
+  font-weight: bold;
+  color: green;
+}
+#results li ul li.market-value::before {
+  content: "$"
+}
+
+#results .no-data {
+  padding: 4em;
+}

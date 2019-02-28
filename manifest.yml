@@ -1,0 +1,4 @@
+applications:
+- name: icanhaz
+  memory: 64M
+  instances: 1

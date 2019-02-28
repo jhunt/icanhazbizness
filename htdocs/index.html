@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>I CAN HAZ BIZNESS?!</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div id="main">
+    <h1>I CAN HAZ BIZNESS?!</h1>
+    <input type="text" name="q" placeholder="i haz name?">
+    <div id="results">
+    </div>
+  <div>
+
+  <script type="text/html" id="template:no-results">
+    <div class="no-data error">
+      <p>UH-OH.  SOMEONE BROKE THE SHINY THING.</p>
+      <p>I dunno; maybe try reloading?</p>
+    </div>
+  </script>
+  <script type="text/html" id="template:results">
+    [[ if (_.results.length == 0) { ]]
+    <div class="no-data">
+
+      <p>Yas, <strong>YOU CAN</strong>.</p>
+      <img src="icanhaz.png">
+    </div>
+    [[ } else { ]]
+    <span class="meta">found [[= _.results.length ]] result[[= _.results.length == 1 ? '' : 's' ]]</span>
+    <span class="warning">Oh Noes!  No Biznesses For You My Friend!!</span>
+
+    <ul>
+      [[ for (var i = 0; i < _.results.length; i++) { ]]
+      <li>
+        <h2>[[= _.results[i].name ]]</h2>
+        <ul>
+          <li class="industry">[[= _.results[i].industry ]]</li>
+          <li class="market-value">[[= b(_.results[i].marketValue) ]]</li>
+        </ul>
+      </li>
+      [[ } ]]
+    </ul>
+    [[ } ]]
+  </script>
+
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="lens.js"></script>
+  <script type="text/javascript">
+    function b (n) {
+      if (n > 1000) {
+        return (n / 1000.0).toFixed(2) + ' B';
+      }
+      return n.toFixed(2) + ' M';
+    };
+    $(function () {
+      $.ajax({
+        type: 'GET',
+        url:  'data.json',
+      }).then(function (data) {
+        $('[name=q]').on('change', function (event) {
+          var q = $(event.target).val();
+          document.location.hash = '#'+encodeURIComponent(q);
+          q = new RegExp(q, 'i');
+          var results = [];
+          for (var i = 0; i < data.length; i++) {
+            if (data[i].name.match(q)) {
+              results.push(data[i]);
+            }
+          }
+          results.sort(function (a,b) {
+            return (a.name == b.name) ? 0
+                 : (a.name  > b.name) ? 1 : -1;
+          });
+          $('#results').template('results', { results: results });
+        });
+
+        if (document.location.hash != '#') {
+          $('[name=q]').val(decodeURIComponent(document.location.hash.substr(1))).trigger('change');
+        }
+      }, function () {
+        $('#results').template('error');
+      });
+    });
+  </script>
+</body>
